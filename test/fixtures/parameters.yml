@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  break_relationship: MyString
+  registration: MyString
+  area: MyString
+  informations: MyString
+  initiate_relationship: MyString
+  accept: MyString
+
+two:
+  break_relationship: MyString
+  registration: MyString
+  area: MyString
+  informations: MyString
+  initiate_relationship: MyString
+  accept: MyString

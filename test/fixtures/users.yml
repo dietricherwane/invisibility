@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  username: MyString
+  phone_number: 1
+  gender: MyString
+  age: 1
+  in_couple_with: MyString
+  infos: MyString
+
+two:
+  username: MyString
+  phone_number: 1
+  gender: MyString
+  age: 1
+  in_couple_with: MyString
+  infos: MyString

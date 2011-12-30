@@ -1,0 +1,40 @@
+<%= form_for(@parameters) do |f| %>
+	<% if @parameters.errors.any? %>
+		<div id="errorExplanation">
+			<h2><%= pluralize(@parameters.errors.count, "error") %>
+			prohibited this user from being saved:</h2>
+			<ul>
+				<% @parameters.errors.full_messages.each do |msg| %>
+					<li><%= msg %></li>
+				<% end %>
+			</ul>
+	</div>
+	<% end %>
+	<div class="field">
+	<%= f.label :break_relationship %><br />
+	<%= f.text_field :break_relationship %>
+	</div>
+	<div class="field">
+	<%= f.label :registration %><br />
+	<%= f.text_field :registration %>
+	</div>
+	<div class="field">
+	<%= f.label :area %><br />
+	<%= f.text_field :area %>
+	</div>
+	<div class="field">
+	<%= f.label :informations %><br />
+	<%= f.text_field :informations %>
+	</div>
+	<div class="field">
+	<%= f.label :initiate_relationship %><br />
+	<%= f.text_field :initiate_relationship %>
+	</div>
+	<div class="field">
+	<%= f.label :accept %><br />
+	<%= f.text_field :accept %>
+	</div>
+	<div class="actions">
+	<%= f.submit %>
+	</div>
+<% end %>

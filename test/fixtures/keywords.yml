@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  tchat: MyString
+  area: MyString
+  set_infos: MyString
+  get_infos: MyString
+  initiate_relationship: MyString
+  activate_relationship: MyString
+  break_relationship: MyString
+  help: MyString
+
+two:
+  tchat: MyString
+  area: MyString
+  set_infos: MyString
+  get_infos: MyString
+  initiate_relationship: MyString
+  activate_relationship: MyString
+  break_relationship: MyString
+  help: MyString
