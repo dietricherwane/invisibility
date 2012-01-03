@@ -1,0 +1,10 @@
+<% headers = ["NUMEROS DE TELEPHONE DU COUPLE", "PSEUDONYMES DU COUPLE", "NOMBRE DE SMS ECHANGES"] %>
+<%= CSV.generate_line headers, {:col_sep => ';'} %>
+<% unless @users.eql?(nil) %>
+	<% @users.each do |user| %>	
+		<% row = [ "#{User.find_by_id(user.user_id).phone_number} | #{user.receiver}",
+						   "#{User.find_by_id(user.user_id).username} | #{User.find_by_phone_number(user.receiver).username}",
+						   user.sms_number] %>
+		<%= CSV.generate_line row, {:row_sep => nil, :col_sep => ';'} %>
+	<% end %>
+<% end %>

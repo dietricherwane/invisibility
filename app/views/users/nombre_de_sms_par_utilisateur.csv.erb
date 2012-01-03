@@ -1,0 +1,16 @@
+<% headers = ["NUMERO DE TELEPHONE", "PSEUDONYME", "NOMBRE DE SMS ENVOYES"] %>
+<%= CSV.generate_line headers, {:col_sep => ';'} %>
+<% pseudo = '' %>
+<% unless @users.eql?(nil) %>
+	<% @users.each do |user| %>	
+		<% if User.find_by_phone_number(user.phone_number).eql?(nil) %>
+			<% pseudo = '-' %>
+		<% else %>
+			<% pseudo = User.find_by_phone_number(user.phone_number).username %> 
+		<% end %>
+		<% row = [ user.phone_number,
+						   pseudo.strip,
+						   user.sms_number] %>
+		<%= CSV.generate_line row, {:row_sep => nil, :col_sep => ';'} %>
+	<% end %>
+<% end %>

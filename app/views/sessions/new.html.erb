@@ -1,14 +1,63 @@
-<h1>Login</h1>
-<%= form_tag session_path do %>
-<div class="field">
-<%= label_tag :email %><br />
-<%= text_field_tag :email %>
-</div>
-<div class="field">
-<%= label_tag :password %><br />
-<%= password_field_tag :password %>
-</div>
-<div class="actions">
-<%= submit_tag 'Login' %>
-</div>
-<% end %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Real World Admin - Login</title>
+    
+    <!-- JQuery UI CSS Framework -->
+    <link rel="stylesheet" type="text/css" href="css/ui-lightness/jquery-ui-1.8.4.custom.css"  />
+    <!-- End JQuery UI CSS Framework -->
+	
+    <!-- General Styles common for all pages -->
+    <link rel="stylesheet" type="text/css" href="css/globals.css" />
+    <link rel="stylesheet" type="text/css" href="css/commons.css" />
+    <link rel="stylesheet" type="text/css" href="css/plugins.css" />
+    <!-- END General Styles -->
+    
+    <!-- Current Theme styles. These are changed via theme switcher -->	<link rel="stylesheet" id="active-theme-globals" type="text/css" href="themes/sleek-wood/css/globals.css" />
+	<link rel="stylesheet" id="active-theme-commons" type="text/css" href="themes/sleek-wood/css/commons.css" />
+	<link rel="stylesheet" id="active-theme-plugins" type="text/css" href="themes/sleek-wood/css/plugins.css" /> <!-- END Current Theme styles -->
+</head>
+
+<body id="login-body">	
+
+	<div id="login-title">
+        <h1>Real World Admin</h1>
+        <p>An advanced administration interface for your website.</p>
+    </div>
+    
+		<%= content_tag :p, notice, :class => 'status info' if notice.present? %>
+		<%= content_tag :p, alert, :class => 'status info' if alert.present? %>
+					
+    <%= form_tag session_path, :id => 'login-form' do %>
+        <div id="login-inner">
+            <div id="wrapper">
+                <p>Administration Login</p>
+            </div>
+
+            <div class="field-separator">
+                <%= label_tag 'login', 'E-mail' %><br />
+								<%= text_field_tag 'email', '', :class => 'txt', :id => 'login' %>               
+            </div>
+            <div class="field-separator">              
+									<%= label_tag 'password', 'Mot de passe' %><br />
+									<%= password_field_tag 'password', '', :class => 'txt' %>									
+            </div>
+            <div id="login-bottom">
+                 <!--<div id="remember-me">
+                	<a href="#">Remember Me</a>&#124;&nbsp;
+                    <a href="#">Forgot Password</a>
+            		 </div>-->
+                
+									<%= submit_tag 'Login', :id => 'login-button', :class => 'submit large round' %>
+								
+                <div style="clear: both"></div>
+            </div>            	                      	
+        </div>
+    <% end %>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.4.custom.min.js"></script>
+	<script type="text/javascript" src="js/custom.js"></script>
+</body>
+</html>
+

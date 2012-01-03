@@ -4,12 +4,13 @@ class AdministratorsController < ApplicationController
 	
 	def new
 		@administrator = Administrator.new
+		@posts = User.paginate(:page => params[:page], :per_page => 4)
 	end
 	
 	def create
 		@administrator = Administrator.new(params[:administrator])
 		if @administrator.save
-			redirect_to stats_path, :notice => 'User successfully added.'
+			redirect_to dashboard_path, :notice => 'User successfully added.'
 		else
 			render :action => 'new'
 		end
@@ -22,7 +23,7 @@ class AdministratorsController < ApplicationController
 	def update
 		@administrator = Administrator.find(params[:id])
 		if @administrator.update_attributes(params[:administrator])
-			redirect_to stats_path, :notice => 'Updated user information successfully.'
+			redirect_to dashboard_path, :notice => 'Updated user information successfully.'
 		else
 			render :action => 'edit'
 		end

@@ -1,11 +1,9 @@
 <%= form_for(@administrator) do |f| %>
 	<% if @administrator.errors.any? %>
 		<div id="errorExplanation">
-			<h2><%= pluralize(@administrator.errors.count, "error") %>
-			prohibited this user from being saved:</h2>
 			<ul>
-				<% @administrator.errors.full_messages.each do |msg| %>
-					<li><%= msg %></li>
+				<% @administrator.errors.full_messages.each do |msg| %>	
+					<li><%= content_tag :p, msg, :class => 'status info' %></li>
 				<% end %>
 			</ul>
 	</div>
@@ -23,6 +21,11 @@
 	<%= f.password_field :password_confirmation %>
 	</div>
 	<div class="actions">
-	<%= f.submit %>
+	<%= f.submit 'Valider', :id => 'login-button', :class => 'submit large round' %>
 	</div>
+<% end %>
+
+<%= will_paginate @posts %>
+<% @posts.each do |post| %>
+<%= post.username %>
 <% end %>

@@ -3,15 +3,21 @@ Invisibility::Application.routes.draw do
 	#match '/users/index' => 'users#index'
 	
   root :to => "sessions#new"
-  resources :users
   resources :administrators
+  resources :users
   resource :session
   resources :parameters
   match '/login' => "sessions#new", :as => "login"
 	match '/logout' => "sessions#destroy", :as => "logout"
-  match 'statistiques' => 'users#stats', :as => :stats
+  match '/statistiques' => 'users#stats', :as => :stats
+  match '/dashboard' => 'users#stats', :as => :dashboard
   match '/reports' => "users#reports", :as => :reports
-  
+  match '/nombre_de_sms_par_utilisateur' => 'users#nombre_de_sms_par_utilisateur', :as => :nombre_de_sms_par_utilisateur
+  match '/sms_par_utilisateur_mail' => 'users#nombre_de_sms_par_utilisateur_mail', :as => :sms_par_utilisateur_mail
+  match '/nombre_de_sms_par_couple' => 'users#nombre_de_sms_par_couple', :as => :nombre_de_sms_par_couple
+  match '/sms_par_couple_mail' => 'users#nombre_de_sms_par_couple_mail', :as => :sms_par_couple_mail
+  match '/send_email' => "users#send_email", :as => :send_email
+  match '/write_to_disk' => 'users#write_to_disk', :as => :write_to_disk
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

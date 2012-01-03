@@ -1,0 +1,35 @@
+<h2 class="top-title">Nombre de sms envoyés par couple</h2>
+<br />
+<table class="list-table">
+  <thead>
+    <tr>
+      <th width="240">Numéros de téléphone du Couple</th>
+      <th>Pseudonymes du couple</th>
+      <th>Nombre de sms échangés</th>
+    </tr>
+  </thead>
+  <tbody>
+<% unless @users.empty? %>
+	<% @users_pagination.each do |user| %>
+		<tr>
+			<td>
+				<%= "#{User.find_by_id(user.user_id).phone_number} | #{user.receiver}" %>
+			</td>
+			<td>
+				<%= "#{User.find_by_id(user.user_id).username} | #{User.find_by_phone_number(user.receiver).username}" %> 
+			</td>
+			<td>
+				<%= user.sms_number %>
+			</td>
+		</tr>
+	<% end %>
+<% end %>
+  </tbody>
+</table>
+<div id="pagination">
+	<%= will_paginate @users_pagination %>
+</div>
+<hr />
+
+<%= link_to "Enregistrer", nombre_de_sms_par_couple_path(:csv), :class => 'submit button large ui-corner-all' %>
+<%= link_to "Recevoir par mail", sms_par_couple_mail_path, :class => 'submit button large ui-corner-all' %>

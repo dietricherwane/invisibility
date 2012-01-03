@@ -1,11 +1,9 @@
 <%= form_for(@parameters) do |f| %>
 	<% if @parameters.errors.any? %>
 		<div id="errorExplanation">
-			<h2><%= pluralize(@parameters.errors.count, "error") %>
-			prohibited this user from being saved:</h2>
 			<ul>
-				<% @parameters.errors.full_messages.each do |msg| %>
-					<li><%= msg %></li>
+				<% @administrator.errors.full_messages.each do |msg| %>	
+					<li><%= content_tag :p, msg, :class => 'status info' %></li>
 				<% end %>
 			</ul>
 	</div>
@@ -35,6 +33,6 @@
 	<%= f.text_field :accept %>
 	</div>
 	<div class="actions">
-	<%= f.submit %>
+	<%= f.submit 'Valider', :id => 'login-button', :class => 'submit large round' %>
 	</div>
 <% end %>

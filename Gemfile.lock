@@ -73,6 +73,7 @@ GEM
     typhoeus (0.3.2)
       mime-types
     tzinfo (0.3.31)
+    will_paginate (3.0.2)
 
 PLATFORMS
   ruby
@@ -83,3 +84,4 @@ DEPENDENCIES
   rails (= 3.0.9)
   randumb
   typhoeus
+  will_paginate (~> 3.0)

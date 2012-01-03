@@ -1,17 +1,109 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Invisibility</title>
-  <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
-  <%= csrf_meta_tag %>
+	<title>Interface d'administration</title>
+    
+    <!-- JQuery UI CSS Framework -->
+    <!--<link rel="stylesheet" type="text/css" href="css/ui-lightness/jquery-ui-1.8.4.custom.css"  />
+    
+    <!-- End JQuery UI CSS Framework -->
+
+    <!-- General Styles common for all pages -->
+    <!--<link rel="stylesheet" type="text/css" href="css/globals.css" />
+    <link rel="stylesheet" type="text/css" href="css/commons.css" />
+    <link rel="stylesheet" type="text/css" href="css/plugins.css" />
+    <!-- END General Styles -->
+    
+    <!-- Current Theme styles. These are changed via theme switcher -->	<!--<link rel="stylesheet" id="active-theme-globals" type="text/css" href="themes/sleek-wood/css/globals.css" />-->
+  <%= stylesheet_link_tag 'ui-lightness/jquery-ui-1.8.4.custom.css', 'globals.css', 'commons.css', 'plugins.css', 'css/globals.css',  'css/commons.css', 'css/plugins.css' %>
+	<!-- END Current Theme styles -->
 </head>
-<body>
 
-<%= content_tag :p, notice, :class => 'notice' if notice.present? %>
-<%= content_tag :p, alert, :class => 'alert' if alert.present? %>
+<body>	
+	<!-- Container -->
+	<div id="container">
+    	<!-- Header -->
+        <div id="header">
+    		<div id="header-top">
+            	<div id="top-block-left">
+                	<p><%= current_user.email %></p>
+                </div>
+                <ul id="top-toolbox">
+                	<!--<li><a href="#" id="settings-link">Settings</a></li>-->
+                  <li><%= link_to "Editer profil", edit_administrator_path(current_user.id), :id => "profile-link" %></li>
+                  <li><%= link_to "Logout", logout_path, :id => "logout-link" %></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div id="header-middle">
+           		<a href="dashboard.html" id="logo">Real World Admin</a>
+            </div>
+            <!-- Top Menu -->
+            <div id="menu">
+            	<ul class="topnav">
+                    <li><%= link_to "Dashboard", dashboard_path, :id => "menu-dashboard" %></li>
+                    <li><a href="page.html" id="menu-page">Sample Page</a></li>
+                    <li><a href="assets.html" id="menu-asset">Assets</a></li>
+                    <li id="active-item"><a href="events.html" id="menu-event">Events</a></li>
+                    <li><%= link_to "Rapports", '#', :id => "menu-report" %>
+                    	<ul class="subnav">
+                        <li><%= link_to "Par utilisateur", nombre_de_sms_par_utilisateur_path %></li>
+                        <li><%= link_to "Par couple", nombre_de_sms_par_couple_path %></li>
+                      </ul>
+                    </li>
+                    <li><a href="tasks.html" id="menu-task">Tasks</a></li>
+                    <li class="right"><a href="themes.html" id="menu-theme">Themes</a></li>
+                    <li class="right" id="last"><a href="#" id="menu-layout">Layouts</a>
+                        <!-- Dropdown Part -->
+                        <ul class="subnav">
+                            <li><a href="#" id="fixed-layout">Fixed Layout</a></li>
+                            <li><a href="#" id="liquid-layout">Liquid Layout</a></li>
+                        </ul>
+                        <!-- End Dropdown Part -->
+                    </li>
+                </ul>
+		  	</div>
+            <!-- END Menu -->
+        </div>
+        <!-- END Header -->
+        <div class="clear"></div> 
+        <!-- Content -->
+ 		<div id="content">
+        	<!-- Information Block -->	
 
-<%= yield %>
-
+          <%= content_tag :p, notice, :class => 'status info' if notice.present? %>
+					<%= content_tag :p, alert, :class => 'status info' if alert.present? %>
+        	<%= yield %>
+    </div>
+      <!-- END Content -->
+	</div>
+    <!-- END Container -->    
+    
+    <!-- Footer Container -->
+    <div id="footer-container">
+        <div id="footer">
+            <div id="footer-logo">
+    			<p id="copyright">Copyright &copy; 2010 By Weblusive.</p>
+            </div>
+            <!-- Footer Menu -->
+            <ul class="menu">
+             	<li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="page.html">Sample Page</a></li>
+    			<li><a href="assets.html">Assets</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="reports.html">Reports</a></li>
+                <li><a href="tasks.html">Tasks</a></li>
+                <li><a href="themes.html">Themes</a></li>
+            </ul>
+            <!-- END Footer Menu -->
+           <div class="clear"></div>
+        </div>
+    </div>
+    <!-- END Footer Container -->
+    
+  	<!--[if lte IE 6]><script src="js/ie6/warning.js"></script><script>window.onload=function(){e("js/ie6/")}</script><![endif]-->
+ 	<%= javascript_include_tag 'jquery.js', 'jquery-ui-1.8.4.custom.min.js', 'jquery.weekcalendar.js', 'custom.js' %>
 </body>
 </html>
+
+

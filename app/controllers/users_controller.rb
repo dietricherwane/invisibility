@@ -11,6 +11,9 @@ class UsersController < ApplicationController
  		@service_id = params[:service_id]
  		@content = params[:content].strip
  		
+# compteur
+		counter(@sender) 		
+ 		
  		if in_couple?(@sender)
  			if break_relationship?(@sender, @content)
  				clear_relationship(@sender, @sms_id, @service_id)
@@ -76,6 +79,64 @@ class UsersController < ApplicationController
   end
   
   def stats
+  	@parameters = Parameter.first
+  	render 'parameters/edit'
+  end
+  
+  def nombre_de_sms_par_utilisateur
+  	@users_pagination = Counter.all.paginate(:page => params[:page], :per_page => 10)
+  	@users = Counter.all
+  	respond_to do |format|
+  		format.html
+  		format.csv
+  	end
+  end
+  
+  def nombre_de_sms_par_utilisateur_mail
+  	@users = Counter.all
+  	@pseudo = ''
+  	CSV.open("#{RAILS_ROOT}/public/attachments/nombre_de_sms_par_utilisateur.csv", "wb", :col_sep => ";") do |csv|
+  		csv << ["NUMERO DE TELEPHONE", "PSEUDONYME", "NOMBRE DE SMS ENVOYES"]
+  		csv << ["", "", ""]
+  		unless @users.eql?(nil)
+				@users.each do |user|
+					if User.find_by_phone_number(user.phone_number).eql?(nil)
+						@pseudo = '-'
+					else
+						@pseudo = User.find_by_phone_number(user.phone_number).username 
+					end 			
+					csv << [user.phone_number, @pseudo, user.sms_number]
+				end
+  		end
+		end
+		Notifier.send_email('nombre_de_sms_par_utilisateur', current_user.email).deliver
+  	redirect_to nombre_de_sms_par_utilisateur_path, :notice => 'Le rapport vous a été envoyé par mail.'
+  	File.delete("#{RAILS_ROOT}/public/attachments/nombre_de_sms_par_utilisateur.csv")
+  end
+  
+  def nombre_de_sms_par_couple
+  	@users_pagination = Message.find_by_sql("SELECT user_id, receiver, COUNT(content) AS sms_number FROM messages GROUP BY user_id, receiver;").paginate(:page => params[:page], :per_page => 10)
+  	@users = Message.find_by_sql("SELECT user_id, receiver, COUNT(content) AS sms_number FROM messages GROUP BY user_id, receiver;")
+  	respond_to do |format|
+  		format.html
+  		format.csv
+  	end
+  end
+  
+  def nombre_de_sms_par_couple_mail
+  	@users = Message.find_by_sql("SELECT user_id, receiver, COUNT(content) AS sms_number FROM messages GROUP BY user_id, receiver;")
+  	CSV.open("#{RAILS_ROOT}/public/attachments/nombre_de_sms_par_couple.csv", "wb", :col_sep => ";") do |csv|
+  		csv << ["NUMEROS DE TELEPHONE DU COUPLE", "PSEUDONYMES DU COUPLE", "NOMBRE DE SMS ECHANGES"]
+  		csv << ["", "", ""]
+  		unless @users.empty?
+				@users.each do |user|			
+					csv << ["#{User.find_by_id(user.user_id).phone_number} | #{user.receiver}", "#{User.find_by_id(user.user_id).username} | #{User.find_by_phone_number(user.receiver).username}", user.sms_number]
+				end
+  		end
+		end
+		Notifier.send_email('nombre_de_sms_par_couple', current_user.email).deliver
+  	redirect_to nombre_de_sms_par_utilisateur_path, :notice => 'Le rapport vous a été envoyé par mail.'
+  	File.delete("#{RAILS_ROOT}/public/attachments/nombre_de_sms_par_couple.csv")
   end
   
   def reports
@@ -84,6 +145,23 @@ class UsersController < ApplicationController
   		format.html
   		format.csv
   	end
+  end
+  
+  def send_email
+  	Notifier.send_email.deliver
+  	redirect_to stats_path, :notice => 'email envoyé.'
+  	File.delete("#{RAILS_ROOT}/public/attachments/#{Time.now.strftime("%d-%m-%Y")}.csv")
+  end
+  
+  def write_to_disk
+  	@users = User.all
+  	CSV.open("#{RAILS_ROOT}/public/attachments/#{Time.now.strftime("%d-%m-%Y")}.csv", "wb", :col_sep => ";") do |csv|
+  		csv << ["Id", "Username", "Age", "Gender"]
+  		@users.each do |user|  			
+  			csv << [user.id, user.username, user.age, user.gender]
+  		end
+		end
+		redirect_to send_email_path
   end
   	
 # suppression des utilisateurs n'ayant pas complété leur profil deux jours après leur inscription'  

@@ -422,6 +422,15 @@ class ApplicationController < ActionController::Base
   	end
   	@prefixes
 	end
+	
+	def counter(sender)
+		@user = Counter.find_by_phone_number(sender)
+		if @user.eql?(nil)
+			Counter.create(:phone_number => sender, :sms_number => 1, :creation_date => Date.today)
+		else
+			@user.update_attributes(:sms_number => @user.sms_number+=1)
+		end
+	end
   	  
   def send_message(message)
   	Container.create(:content => message)
@@ -442,8 +451,9 @@ class ApplicationController < ActionController::Base
   end
   
   def forward_message(sender, sms_id, service_id, content)
-  	@sender = User.find_by_phone_number(sender).username
-  	@receiver = User.find_by_username(User.find_by_phone_number(sender).in_couple_with).phone_number
+  	@sender = User.find_by_phone_number(sender)
+  	@receiver = User.find_by_username(@sender.in_couple_with).phone_number
+  	@sender.messages.create(:receiver => @receiver, :content => content)
   	request = Typhoeus::Request.new(pull_and_push?(sender, @receiver),
                                 :headers       => {:Accept => "text/html"},
                                 :params        => {

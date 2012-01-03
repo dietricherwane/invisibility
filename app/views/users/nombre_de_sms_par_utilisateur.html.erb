@@ -1,0 +1,37 @@
+<h2 class="top-title">Nombre de sms envoyés par utilisateur</h2>
+<br />
+<table class="list-table">
+  <thead>
+    <tr>
+      <th width="240">Numéro de téléphone</th>
+      <th>Pseudonyme</th>
+      <th>Nombre de sms envoyés</th>
+    </tr>
+  </thead>
+  <tbody>
+	<% @users_pagination.each do |user| %>
+		<tr>
+			<td>
+				<%= user.phone_number %>
+			</td>
+			<td>
+				<% if User.find_by_phone_number(user.phone_number).eql?(nil) %>
+				-
+				<% else %>
+					<%= User.find_by_phone_number(user.phone_number).username %> 
+				<% end %>
+			</td>
+			<td>
+				<%= user.sms_number %>
+			</td>
+		</tr>
+	<% end %>
+  </tbody>
+</table>
+<div id="pagination">
+	<%= will_paginate @users_pagination %>
+</div>
+<hr />
+
+<%= link_to "Enregistrer", nombre_de_sms_par_utilisateur_path(:csv), :class => 'submit button large ui-corner-all' %>
+<%= link_to "Recevoir par mail", sms_par_utilisateur_mail_path, :class => 'submit button large ui-corner-all' %>

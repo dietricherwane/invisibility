@@ -9,6 +9,7 @@ gem 'pg'
 gem 'typhoeus'
 gem 'magic_encoding'
 gem 'randumb'
+gem 'will_paginate', '~> 3.0'
 
 # Use unicorn as the web server
 # gem 'unicorn'
